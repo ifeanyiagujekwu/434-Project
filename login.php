@@ -34,34 +34,25 @@
 		}*/
 	
 
-
-
-
-
-
-
-
-
-
-
-
-	include('config.php');
+	include('config1.php');
 	session_start();
 
 	if(isset($_POST["submit"]))  {
 		//username and password sent from the form
-		$username=mysqli_real_escape_string($db,$_POST['name']);
-		$email=mysqli_real_escape_string($db,$_POST['email']);
-		$password=mysqli_real_escape_string($db,$_POST['password']);
+		$username=trim($_POST['name']);
+		$email=trim($_POST['email']);
+		$password=trim($_POST['password']);
 
 
-		$sql="SELECT Username,Password FROM info WHERE Username='$username' AND Password='$password'";
+		$sql="SELECT * id FROM students WHERE email = '$email'";
 
 		$result=mysqli_query($db,$sql);
-		$row=mysqli_fetch_array($result,MYSQLI_ASSOC());
-		//$active=$row['active'];
+ 
+		if (!$result) {
+			die('user does not exist');
+		}
 
-		$count=mysqli_num_rows($result);
+		$row=mysqli_fetch_array($result,MYSQLI_ASSOC());
 
 		//if result matched $username and $password,table row must be 1
 
